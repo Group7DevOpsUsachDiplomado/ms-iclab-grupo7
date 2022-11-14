@@ -18,11 +18,15 @@ pipeline {
         }
         stage('SonarQube analysis')
         { 
-            withSonarQubeEnv(credentialsId: 'sonarqube', installationName: 'rnpisonarqube')  
-            { 
-            sh './mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
+            steps
+            {
+               withSonarQubeEnv(credentialsId: 'sonarqube', installationName: 'rnpisonarqube')  
+               { 
+                sh './mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
+               }
             }
          }
+        
         stage('Jar Code') 
         {
             steps {
