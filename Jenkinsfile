@@ -16,6 +16,7 @@ pipeline {
                 sh "./mvnw clean test -e"
             }
         }
+
         stage('SonarQube analysis')
         { 
             steps
@@ -26,7 +27,7 @@ pipeline {
                }
             }
          }
-        
+   
         stage('Jar Code') 
         {
             steps {
