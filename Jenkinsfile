@@ -56,7 +56,7 @@ pipeline {
 
        stage('Nexus Repos')
        {
-           step {
+           steps {
                 echo 'Todo: Maven Clean Install'
                 sh './mvnw clean install'
 	   }
