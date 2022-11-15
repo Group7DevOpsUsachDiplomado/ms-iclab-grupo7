@@ -53,5 +53,13 @@ pipeline {
                  sh "curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=TestingSimple1'"
              }
          }
+
+       stage('Nexus Repos')
+       {
+           step {
+                echo 'Todo: Maven Clean Install'
+                sh './mvnw clean install'
+	   }
+       }
     }
 }
