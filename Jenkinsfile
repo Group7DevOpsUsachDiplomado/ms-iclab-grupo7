@@ -4,6 +4,11 @@ pipeline {
     {
         maven 'maven_env'
     }
+    parameters
+    {
+        choice(name: 'Build_Version', choices: ['Patch','Minor','Mayor'], description: 'Seleccion de tipo de versionamiento')
+        booleanParam(name: 'Enviar al repositorio (Nueva Version)' , defaultValue: false , description: 'Enviar hacia el Repositorio Nexus y realiza versionamiento')
+    }
     stages {
         stage(' Compile ') {
             steps {
