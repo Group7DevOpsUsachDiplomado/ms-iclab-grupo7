@@ -1,5 +1,10 @@
 pipeline {
     agent any
+    tools 
+    {
+          maven 'maven_env'
+          gradle 'gradle_env'
+    }
     stages {
         stage('Compile Code') 
         {
@@ -21,7 +26,7 @@ pipeline {
         { 
             steps
             {
-               withSonarQubeEnv(credentialsId: 'rnpijenkins', installationName: 'rnpisonarqube')  
+               withSonarQubeEnv(credentialsId: 'sonar_token', installationName: 'sonarqube_env')  
                { 
                 sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
                }
@@ -67,8 +72,8 @@ pipeline {
 
             steps
             {
-            nexusPublisher nexusInstanceId: 'nexus_docker', nexusRepositoryId: 'devops-usach-nexus', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'testing.jar']], mavenCoordinate: [artifactId: 'fancyWidget', groupId: 'com.devopsusach2020', packaging: 'jar', version: '1.1']]], tagName: '1.1'
-            }
+                  nexusPublisher nexusInstanceId: 'nexus_docker', nexusRepositoryId: 'devops-usach-nexus', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: "${WORKSPACE}/build/DevOpsUsach2020-0.0.1.jar"]], mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: '0.0.1']]] 
+           }
        }
 
 
