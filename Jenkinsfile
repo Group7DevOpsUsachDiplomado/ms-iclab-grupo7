@@ -7,7 +7,7 @@ pipeline {
     parameters
     {
         choice(name: 'Build_Version', choices: ['Patch','Minor','Mayor'], description: 'Seleccion de tipo de versionamiento')
-        booleanParam(name: 'Enviar al repositorio (Nueva Version)' , defaultValue: false , description: 'Enviar hacia el Repositorio Nexus y realiza versionamiento')
+        booleanParam(name: 'Release Version' , defaultValue: false , description: 'Enviar hacia el Repositorio Nexus y realiza versionamiento')
     }
     stages {
         stage(' Compile ') {
@@ -61,6 +61,7 @@ pipeline {
                 sh "./mvnw clean package -e"
                 sh "./mvnw clean install" 
                 nexusPublisher nexusInstanceId: 'nexus_docker', nexusRepositoryId: 'devops-usach-nexus', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: "${WORKSPACE}/build/DevOpsUsach2020-1.0.0.jar"]], mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: '1.0.0']]]
+                cleanWs()
             }
         }
     }
