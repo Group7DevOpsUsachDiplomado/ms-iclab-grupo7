@@ -8,7 +8,7 @@ pipeline {
     }
     parameters
     {
-        choice(name: 'Build_Version', choices: ['Patch','Minor','Mayor'], description: 'Seleccion de tipo de versionamiento')
+        gitParameter name: 'git_tag', defaultValue: 'origin/master', type: 'PT_TAG'        
         booleanParam(name: 'Release Version' , defaultValue: false , description: 'Enviar hacia el Repositorio Nexus y realiza versionamiento')
     }
     stages {
@@ -83,12 +83,11 @@ pipeline {
         {
         success
         {
-            slackSend channel: 'C04CJ6KN37F', color: '#17FF00', message: "Build Success: ${GIT_COMMIT_USERNAME}[Grupo7][Pipeline IC/CD][Rama: ${env.JOB_NAME}][Stage: build][Resultado:Éxito/Success]"
+            slackSend channel: 'C045DSH239N', color: '#17FF00', message: "Build Success: ${GIT_COMMIT_USERNAME}[Grupo7][Pipeline IC/CD][Rama: ${env.JOB_NAME}][Stage: build][Resultado:Éxito/Success]"
         }
         failure
         {
-            GIT_COMMIT_USERNAME = sh (script: 'git show -s --pretty=%an', returnStdout: true ).trim()
-            slackSend channel: 'C04CJ6KN37F', color: '#FF0000', message: "Build Fallido: ${GIT_COMMIT_USERNAME}[Grupo7][Pipeline IC/CD][Rama: ${env.JOB_NAME}][Stage: build][Resultado:Ejecucion Fallida](<${env.BUILD_URL}|Open>)"
+            slackSend channel: 'C045DSH239N', color: '#FF0000', message: "Build Fallido: ${GIT_COMMIT_USERNAME}[Grupo7][Pipeline IC/CD][Rama: ${env.JOB_NAME}][Stage: build][Resultado:Ejecucion Fallida](<${env.BUILD_URL}|Open>)"
         }
 
         }
