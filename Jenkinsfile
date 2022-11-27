@@ -60,7 +60,7 @@ pipeline {
                 sh "./mvnw clean install"
             }
         }
-        /*stage('ToRepository')
+        /*stage('ToRepository ')
         {
             steps
             {
