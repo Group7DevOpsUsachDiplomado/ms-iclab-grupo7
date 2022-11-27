@@ -1,3 +1,5 @@
+def GIT_COMMIT_USERNAME
+
 pipeline {
     agent any
     tools 
@@ -10,6 +12,11 @@ pipeline {
         booleanParam(name: 'Release Version' , defaultValue: false , description: 'Enviar hacia el Repositorio Nexus y realiza versionamiento')
     }
     stages {
+        stage("Env Variables") {
+            steps {
+                sh "printenv"
+            }
+        }
         stage(' Compile Code ') {
             steps {
                 echo 'TODO: build'
