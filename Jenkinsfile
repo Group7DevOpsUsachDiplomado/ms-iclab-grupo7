@@ -52,14 +52,14 @@ pipeline {
                 }
             }
         }
-        stage('Maven Artifact') 
+        /*stage('Maven Artifact') 
         {
             steps 
             {
                 echo 'TODO: Maven'
                 sh "./mvnw clean install"
             }
-        }
+        }*/
         /*stage('ToRepository')
         {
             steps
@@ -82,14 +82,13 @@ pipeline {
     }
     post
         {
-        success
-        {
-            slackSend channel: 'C045DSH239N', color: '#17FF00', message: "Build Success: ${GIT_COMMIT_USERNAME}[Grupo7][Pipeline IC/CD][Rama: ${env.JOB_NAME}][Version: ${params.git_tag}][Stage: build][Resultado:Éxito/Success]"
-        }
-        failure
-        {
-            slackSend channel: 'C045DSH239N', color: '#FF0000', message: "Build Fallido: ${GIT_COMMIT_USERNAME}[Grupo7][Pipeline IC/CD][Rama: ${env.JOB_NAME}][Version: ${params.git_tag}][Stage: build][Resultado:Ejecucion Fallida](<${env.BUILD_URL}|Open>)"
-        }
-
+            success
+            {
+                slackSend channel: 'C04CJ6KN37F', color: '#17FF00', message: "Build Success: ${GIT_COMMIT_USERNAME}[Grupo7][Pipeline IC/CD][Rama: ${env.JOB_NAME}][Version: ${params.git_tag}][Stage: build][Resultado:Éxito/Success]"
+            }
+            failure
+            {
+                slackSend channel: 'C04CJ6KN37F', color: '#FF0000', message: "Build Fallido: ${GIT_COMMIT_USERNAME}[Grupo7][Pipeline IC/CD][Rama: ${env.JOB_NAME}][Version: ${params.git_tag}][Stage: build][Resultado:Ejecucion Fallida](<${env.BUILD_URL}|Open>)"
+            }
         }
 }
