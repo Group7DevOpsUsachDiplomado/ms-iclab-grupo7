@@ -10,7 +10,7 @@ pipeline {
         booleanParam(name: 'Release Version' , defaultValue: false , description: 'Enviar hacia el Repositorio Nexus y realiza versionamiento')
     }
     stages {
-        stage(' Compile ') {
+        stage(' Compile Code ') {
             steps {
                 echo 'TODO: build'
                 sh "./mvnw clean compile -e"
