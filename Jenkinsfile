@@ -73,6 +73,7 @@ pipeline {
         }
         failure
         {
+            GIT_COMMIT_USERNAME = sh (script: 'git show -s --pretty=%an', returnStdout: true ).trim()
             slackSend channel: 'C045DSH239N', color: '#FF0000', message: "Build Fallido: ${GIT_COMMIT_USERNAME} ${env.JOB_NAME} ${params.Build_Tool} Ejecucion Fallida (<${env.BUILD_URL}|Open>)"
         }
 
