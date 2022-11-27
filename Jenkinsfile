@@ -21,6 +21,7 @@ pipeline {
                 GIT_COMMIT_USERNAME = sh (script: 'git show -s --pretty=%an', returnStdout: true ).trim()                
                 sh "printenv" 
                 echo "${GIT_COMMIT_USERNAME}"
+                echo "${params.git_tag}"
                 }
             }
         } 
@@ -66,15 +67,15 @@ pipeline {
                 nexusPublisher nexusInstanceId: 'nexus_docker', nexusRepositoryId: 'devops-usach-nexus', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: "${WORKSPACE}/build/DevOpsUsach2020-0.0.1.jar"]], mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: '0.0.1']]]
             }
         }
-        stage ('Send to  Nexus 1.0.0')
+        stage ("Send to  ${params.git_tag}")
         {
             steps 
             {
-                echo 'TODO: Maven Install to version ${params.git_tag}'
+                echo "TODO: Maven Install to version ${params.git_tag}"
                 sh "./mvnw versions:set -DnewVersion=${params.git_tag}"
                 sh "./mvnw clean package -e"
                 sh "./mvnw clean install" 
-                nexusPublisher nexusInstanceId: 'nexus_docker', nexusRepositoryId: 'devops-usach-nexus', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: "${WORKSPACE}/build/DevOpsUsach2020-${params.git_tag}.jar"]], mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: '${params.git_tag}']]]
+                nexusPublisher nexusInstanceId: 'nexus_docker', nexusRepositoryId: 'devops-usach-nexus', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: "${WORKSPACE}/build/DevOpsUsach2020-${params.git_tag}.jar"]], mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: "${params.git_tag}"]]]
                 cleanWs()
             }
         }
