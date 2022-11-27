@@ -24,7 +24,7 @@ pipeline {
                 }
             }
         } 
-        stage(' Compile Code ') {
+        stage(' Compile ') {
             steps {
                 echo 'TODO: build'
                 sh "./mvnw clean compile -e"
@@ -70,11 +70,11 @@ pipeline {
         {
             steps 
             {
-                echo 'TODO: Maven Install to version 1.0.0'
-                sh "./mvnw versions:set -DnewVersion=1.0.0"
+                echo 'TODO: Maven Install to version ${params.git_tag}'
+                sh "./mvnw versions:set -DnewVersion=${params.git_tag}"
                 sh "./mvnw clean package -e"
                 sh "./mvnw clean install" 
-                nexusPublisher nexusInstanceId: 'nexus_docker', nexusRepositoryId: 'devops-usach-nexus', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: "${WORKSPACE}/build/DevOpsUsach2020-1.0.0.jar"]], mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: '1.0.0']]]
+                nexusPublisher nexusInstanceId: 'nexus_docker', nexusRepositoryId: 'devops-usach-nexus', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: "${WORKSPACE}/build/DevOpsUsach2020-${params.git_tag}.jar"]], mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: '${params.git_tag}']]]
                 cleanWs()
             }
         }
@@ -83,11 +83,11 @@ pipeline {
         {
         success
         {
-            slackSend channel: 'C045DSH239N', color: '#17FF00', message: "Build Success: ${GIT_COMMIT_USERNAME}[Grupo7][Pipeline IC/CD][Rama: ${env.JOB_NAME}][Stage: build][Resultado:Éxito/Success]"
+            slackSend channel: 'C045DSH239N', color: '#17FF00', message: "Build Success: ${GIT_COMMIT_USERNAME}[Grupo7][Pipeline IC/CD][Rama: ${env.JOB_NAME}][Version: ${params.git_tag}][Stage: build][Resultado:Éxito/Success]"
         }
         failure
         {
-            slackSend channel: 'C045DSH239N', color: '#FF0000', message: "Build Fallido: ${GIT_COMMIT_USERNAME}[Grupo7][Pipeline IC/CD][Rama: ${env.JOB_NAME}][Stage: build][Resultado:Ejecucion Fallida](<${env.BUILD_URL}|Open>)"
+            slackSend channel: 'C045DSH239N', color: '#FF0000', message: "Build Fallido: ${GIT_COMMIT_USERNAME}[Grupo7][Pipeline IC/CD][Rama: ${env.JOB_NAME}][Version: ${params.git_tag}][Stage: build][Resultado:Ejecucion Fallida](<${env.BUILD_URL}|Open>)"
         }
 
         }
