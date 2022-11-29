@@ -8,7 +8,7 @@ pipeline {
     }
     parameters
     {
-        gitParameter name: 'git_tag', defaultValue: 'origin/master', type: 'PT_TAG' ,sortMode:'DESCENDING SMART' 
+        gitParameter name: 'git_tag', defaultValue: 'origin/master', type: 'PT_TAG' , sortMode:'DESCENDING' 
         booleanParam(name: 'Release Version' , defaultValue: false , description: 'Enviar hacia el Repositorio Nexus y realiza versionamiento')
         
     }
