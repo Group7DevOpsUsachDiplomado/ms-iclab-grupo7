@@ -4,8 +4,6 @@ pipeline {
     agent any
     tools 
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
         maven 'maven_env'
     }
     parameters
@@ -17,15 +15,6 @@ pipeline {
     }
     stages {
         stage('Init Env Variables')
-=======
-=======
->>>>>>> 9c7ae24cd3d5db50c67c9a83b1fac39b915210ea
-          maven 'maven_env'
-          gradle 'gradle_env'
-    }
-    stages {
-        stage('Compile Code') 
->>>>>>> c6e3777e436e06d2d9dcce0ea7cff63360997bfe
         {
             steps
             {
@@ -101,7 +90,6 @@ pipeline {
                 nexusPublisher nexusInstanceId: 'nexus_docker', nexusRepositoryId: 'devops-usach-nexus', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: "${WORKSPACE}/build/DevOpsUsach2020-${params.git_tag}.jar"]], mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: "${params.git_tag}"]]]
             }
         }
-<<<<<<< HEAD
         stage ('Download Nexus Jar-Run-Test')
         {
             when
@@ -135,8 +123,6 @@ pipeline {
             }
         }
 }
-=======
-
         stage('Testing')
         {
              steps { 
@@ -161,12 +147,5 @@ pipeline {
                   nexusPublisher nexusInstanceId: 'nexus_docker', nexusRepositoryId: 'devops-usach-nexus', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: "${WORKSPACE}/build/DevOpsUsach2020-0.0.1.jar"]], mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: '0.0.1']]] 
            }
        }
-
-
      }
 }
-<<<<<<< HEAD
-
->>>>>>> c6e3777e436e06d2d9dcce0ea7cff63360997bfe
-=======
->>>>>>> 9c7ae24cd3d5db50c67c9a83b1fac39b915210ea
