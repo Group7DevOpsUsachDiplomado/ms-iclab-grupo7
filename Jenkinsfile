@@ -4,7 +4,6 @@ pipeline {
     agent any
     tools 
     {
-<<<<<<< HEAD
         maven 'maven_env'
     }
     parameters
@@ -16,13 +15,6 @@ pipeline {
     }
     stages {
         stage('Init Env Variables')
-=======
-          maven 'maven_env'
-          gradle 'gradle_env'
-    }
-    stages {
-        stage('Compile Code') 
->>>>>>> c6e3777e436e06d2d9dcce0ea7cff63360997bfe
         {
             steps
             {
@@ -41,22 +33,14 @@ pipeline {
                 sh "./mvnw clean compile -e"
             }
         }
-<<<<<<< HEAD
-        stage('Test') {
-=======
 
         stage('Test Code') 
         {
->>>>>>> c6e3777e436e06d2d9dcce0ea7cff63360997bfe
             steps {
                 echo 'TODO: test'
                 sh "./mvnw clean test -e"
             }
         }
-<<<<<<< HEAD
-        stage('Jar') {
-=======
-
         stage('SonarQube analysis')
         { 
             steps
@@ -70,7 +54,6 @@ pipeline {
    
         stage('Jar Code') 
         {
->>>>>>> c6e3777e436e06d2d9dcce0ea7cff63360997bfe
             steps {
                 echo 'TODO: package'
                 sh "./mvnw clean package -e"
@@ -105,7 +88,6 @@ pipeline {
                 nexusPublisher nexusInstanceId: 'nexus_docker', nexusRepositoryId: 'devops-usach-nexus', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: "${WORKSPACE}/build/DevOpsUsach2020-${params.git_tag}.jar"]], mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: "${params.git_tag}"]]]
             }
         }
-<<<<<<< HEAD
         stage ('Download Nexus Jar-Run-Test')
         {
             when
@@ -139,35 +121,3 @@ pipeline {
             }
         }
 }
-=======
-
-        stage('Testing')
-        {
-             steps { 
-                 echo 'TODO: Testing 1 llamada simple'
-                 sh "curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=TestingSimple1'"
-             }
-         }
-
-       stage('Creating Artifact')
-       {
-           steps {
-                echo 'Todo: Maven Clean Install'
-                sh './mvnw clean install'
-	   }
-       }
-       
-       stage ('Publishing') 
-       {
-
-            steps
-            {
-                  nexusPublisher nexusInstanceId: 'nexus_docker', nexusRepositoryId: 'devops-usach-nexus', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: "${WORKSPACE}/build/DevOpsUsach2020-0.0.1.jar"]], mavenCoordinate: [artifactId: 'DevOpsUsach2020', groupId: 'com.devopsusach2020', packaging: 'jar', version: '0.0.1']]] 
-           }
-       }
-
-
-     }
-}
-
->>>>>>> c6e3777e436e06d2d9dcce0ea7cff63360997bfe
