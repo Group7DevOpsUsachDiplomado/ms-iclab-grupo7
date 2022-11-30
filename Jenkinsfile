@@ -5,6 +5,7 @@ pipeline {
     tools 
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
         maven 'maven_env'
     }
     parameters
@@ -17,6 +18,8 @@ pipeline {
     stages {
         stage('Init Env Variables')
 =======
+=======
+>>>>>>> 9c7ae24cd3d5db50c67c9a83b1fac39b915210ea
           maven 'maven_env'
           gradle 'gradle_env'
     }
@@ -41,22 +44,13 @@ pipeline {
                 sh "./mvnw clean compile -e"
             }
         }
-<<<<<<< HEAD
-        stage('Test') {
-=======
-
         stage('Test Code') 
         {
->>>>>>> c6e3777e436e06d2d9dcce0ea7cff63360997bfe
             steps {
                 echo 'TODO: test'
                 sh "./mvnw clean test -e"
             }
         }
-<<<<<<< HEAD
-        stage('Jar') {
-=======
-
         stage('SonarQube analysis')
         { 
             steps
@@ -70,20 +64,13 @@ pipeline {
    
         stage('Jar Code') 
         {
->>>>>>> c6e3777e436e06d2d9dcce0ea7cff63360997bfe
             steps {
                 echo 'TODO: package'
                 sh "./mvnw clean package -e"
             }
         }
-        stage('SonarQube analysis')
-        {
-            steps {
-                        withSonarQubeEnv(credentialsId: 'jenkins', installationName: 'rnpisonarqube') { // You can override the credential to be used
-                    sh './mvnw org.sonarsource.scanner.maven:sonar-maven-plugin:3.7.0.1746:sonar'
-                }
-            }
-        }
+
+   
         stage('Run Code') 
 
         {
@@ -178,5 +165,8 @@ pipeline {
 
      }
 }
+<<<<<<< HEAD
 
 >>>>>>> c6e3777e436e06d2d9dcce0ea7cff63360997bfe
+=======
+>>>>>>> 9c7ae24cd3d5db50c67c9a83b1fac39b915210ea
