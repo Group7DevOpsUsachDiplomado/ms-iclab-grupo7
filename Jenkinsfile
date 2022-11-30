@@ -33,7 +33,6 @@ pipeline {
                 sh "./mvnw clean compile -e"
             }
         }
-
         stage('Test Code') 
         {
             steps {
@@ -59,7 +58,10 @@ pipeline {
                 sh "./mvnw clean package -e"
             }
         }
-        stage('Sonarque')
+
+   
+        stage('Run Code') 
+
         {
             steps{
                 withSonarQubeEnv(credentialsId: 'sonar_token', installationName: 'sonarqube_env')

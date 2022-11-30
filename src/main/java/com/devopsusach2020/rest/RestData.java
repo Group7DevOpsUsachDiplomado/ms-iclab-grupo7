@@ -1,5 +1,6 @@
 package com.devopsusach2020.rest;
 
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,11 +26,31 @@ public class RestData {
 	
 	@GetMapping(path = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody Pais getData(@RequestParam(name = "msg") String message){
-		
+			RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> call = restTemplate.getForEntity("https://api.covid19api.com/live/country" + message ,String.class);
+
 		LOGGER.log(Level.INFO, "Proceso exitoso de prueba");
 		
-		Pais response = new Pais();
-		response.setMensaje("Mensaje Recibido: " + message);
+			Pais response = new Pais();
+			int confirmed = 0;
+			int death = 0;
+			int recovered = 0;
+			Gson gson = new Gson();
+	Pais[] estados = gson.fromJson(call.getBody().toLowerCase(), Pais[].class);
+
+	for(Pais estado : estados) {
+			response.setDate(estado.getDate());
+			response.setActive(estado.getActive());
+			confirmed += estado.getConfirmed();
+			death += estado.getDeaths();
+			recovered += estado.getRecovered();
+	}
+
+		response.setConfirmed(confirmed);
+		response.setDeaths(death);
+		response.setRecovered(recovered);
+		response.setCountry(message);
+		response.setMensaje("ok");
 		return response;
 	}
 
