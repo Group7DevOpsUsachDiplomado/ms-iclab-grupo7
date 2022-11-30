@@ -8,8 +8,8 @@ pipeline {
     }
     parameters
     {
-        gitParameter name: 'git_tag', defaultValue: 'origin/master', type: 'PT_TAG' , sortMode:'DESCENDING_SMART' 
-        booleanParam(name: 'Release Version' , defaultValue: false , description: 'Enviar hacia el Repositorio Nexus y realiza versionamiento ')
+        gitParameter name: 'git_tag', defaultValue: '0.0.1', type: 'PT_TAG' , sortMode:'DESCENDING_SMART' 
+        booleanParam(name: 'Release_Version' , defaultValue: false , description: 'Enviar hacia el Repositorio Nexus y realiza versionamiento ')
         
     }
     stages {
@@ -56,6 +56,14 @@ pipeline {
         
         stage ('Send to Nexus new Version')
         {
+            when
+            {
+                expression
+                {
+                    params.Release_Version
+
+                }
+            }
             steps 
             {
                 echo "TODO: Maven Install to version ${params.git_tag}"
@@ -75,7 +83,7 @@ pipeline {
             }
             failure
             {
-                slackSend channel: 'C04CJ6KN37F', color: '#FFF000', message: "Build Fallido: ${GIT_COMMIT_USERNAME}[Grupo7][Pipeline IC/CD][Rama: ${env.JOB_NAME}][Version: ${params.git_tag}][Stage: build][Resultado:Ejecucion Fallida](<${env.BUILD_URL}|Open>)"
+                slackSend channel: 'C04CJ6KN37F', color: '#FF0000', message: "Build Fallido: ${GIT_COMMIT_USERNAME}[Grupo7][Pipeline IC/CD][Rama: ${env.JOB_NAME}][Version: ${params.git_tag}][Stage: build][Resultado:Ejecucion Fallida](<${env.BUILD_URL}|Open>)"
             }
         }
 }
