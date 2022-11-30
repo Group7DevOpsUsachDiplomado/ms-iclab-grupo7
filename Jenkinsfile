@@ -94,10 +94,10 @@ pipeline {
             }
 	        steps
 		    {
-                
+                sh "mkdir -p ${WORKSPACE}/tmp"
    		        sh "curl http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/${params.git_tag}/DevOpsUsach2020-${params.git_tag}.jar --output ${WORKSPACE}/tmp/DevOpsUsach2020-${params.git_tag}.jar"
                 sh "java -jar ${WORKSPACE}/tmp/DevOpsUsach2020-${params.git_tag}.jar &"
-                sh "sleep 10"
+                sh "sleep 30"
 		        sh "curl -X GET  http://localhost:8081/rest/mscovid/test?msg=testing"
                 echo "Stopping App"
             }
