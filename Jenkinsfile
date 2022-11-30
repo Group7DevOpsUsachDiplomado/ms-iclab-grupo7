@@ -85,7 +85,6 @@ pipeline {
             }
 	        steps
 		    {
-       cleanWs()
 
    		        sh "curl http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/${params.git_tag}/DevOpsUsach2020-${params.git_tag}.jar --output /tmp/DevOpsUsach2020-${params.git_tag}.jar"
                 sh "java -jar /tmp/DevOpsUsach2020-${params.git_tag}.jar &"
