@@ -8,7 +8,7 @@ pipeline {
     }
     parameters
     {
-        gitParameter name: 'git_tag', defaultValue: '0.0.1', type: 'PT_TAG' , sortMode:'DESCENDING_SMART' 
+        gitParameter name: 'git_tag', defaultValue: '0.0.1', type: 'PT_TAG' , sortMode:'DESCENDING_SMART'   
         booleanParam(name: 'Release_Version' , defaultValue: false , description: 'Enviar hacia el Repositorio Nexus y realiza versionamiento ')
         
     }
@@ -85,11 +85,9 @@ pipeline {
             }
 	        steps
 		    {
-   		        sh 'curl http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/001/DevOpsUsach2020-001.jar --output /tmp/DevOpsUsach2020-001.jar'
-                sh 'java -jar /tmp/DevOpsUsach2020-001.jar &'
+   		        sh "curl http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/001/DevOpsUsach2020-${git_tag}.jar --output /tmp/DevOpsUsach2020-${git_tag}.jar"
+                sh "java -jar /tmp/DevOpsUsach2020-${git_tag}.jar "
 		        sh 'curl -X GET  http://localhost:8081/rest/mscovid/test?msg=testing'
-                echo "Stopping App"
-                sh 'pkill -f "java -jar /tmp/DevOpsUsach2020-001.jar"'
             }
 	      
        }
